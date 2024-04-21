@@ -59,9 +59,15 @@ java -jar target/target/cardio_generator-1.0-SNAPSHOT.jar --patient-count 100 --
 - `file:<directory>`: Saves the simulated data to files within the specified directory.
 - `websocket:<port>`: Streams the simulated data to WebSocket clients connected to the specified port.
 - `tcp:<port>`: Streams the simulated data to TCP clients connected to the specified port.
+## UML Class Diagrams and Documentation
+
+This repository now includes UML class diagrams and documentation for the data generator project. The diagrams and documentation can be found in the [uml_models](./uml_models) directory.
+
+Feel free to explore the diagrams and documentation to gain insights into the design and implementation of the data generator project.
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Student ID: i6351457
+## Student ID: 
+i6351457
