@@ -61,7 +61,7 @@ java -jar target/target/cardio_generator-1.0-SNAPSHOT.jar --patient-count 100 --
 - `tcp:<port>`: Streams the simulated data to TCP clients connected to the specified port.
 ## UML Class Diagrams and Documentation
 
-This repository now includes UML class diagrams and documentation for the data generator project. The diagrams and documentation can be found in the [uml_models](./uml_models) directory.
+This repository now includes UML diagrams and documentation for the data generator project. The diagrams and documentation can be found in the [uml_models](./uml_models) directory.
 
 Feel free to explore the diagrams and documentation to gain insights into the design and implementation of the data generator project.
 
