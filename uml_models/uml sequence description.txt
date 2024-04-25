@@ -1,0 +1,10 @@
+The system begins with a Medical Staff Device. This could be a bedside monitor or another device used to monitor a patient’s vital signs.
+The Medical Staff Device collects data from sensors attached to the patient. These sensors measure things like heart rate, blood pressure, and oxygen saturation.
+The data is then sent to a Patient Monitoring Device. This device is likely a central computer or server that collects and processes data from multiple medical staff devices.
+The Patient Monitoring Device processes the data. This may involve filtering the data, converting it into a standard format, or storing it in a database.
+The processed data is then analysed. This could involve comparing the data to preset thresholds to identify any abnormalities.
+If an abnormality is detected, an alert is generated. The alert contains information about the abnormality, such as the specific vital sign that is out of range and the severity of the issue.
+The alert is then sent to the Medical Staff. This could be done in a number of ways, such as displaying it on a bedside monitor, sending a notification to a pager or smartphone, or sending an email or text message.
+The medical staff can then acknowledge the alert. This indicates that they have seen the alert and are taking appropriate action.
+Once the alert is acknowledged, the system may continue to monitor the patient’s vital signs and generate additional alerts if necessary.
+The system can also store historical data. This data can be used to track trends in a patient’s condition over time and to help make decisions about their care.
