@@ -19,7 +19,7 @@ public class DataStorage {
      * Constructs a new instance of DataStorage, initializing the underlying storage
      * structure.
      */
-    public DataStorage() {
+    public DataStorage(DataReader reader) {
         this.patientMap = new HashMap<>();
     }
 
@@ -36,7 +36,10 @@ public class DataStorage {
      * @param timestamp        the time at which the measurement was taken, in
      *                         milliseconds since the Unix epoch
      */
-    public void addPatientData(int patientId, double measurementValue, String recordType, long timestamp) {
+    public synchronized void addPatientData(int patientId, double measurementValue, String recordType, long timestamp) {
+        if (recordType == null) {
+            throw new NullPointerException("Record type cannot be null");
+        }
         Patient patient = patientMap.get(patientId);
         if (patient == null) {
             patient = new Patient(patientId);
@@ -44,6 +47,7 @@ public class DataStorage {
         }
         patient.addRecord(measurementValue, recordType, timestamp);
     }
+
 
     /**
      * Retrieves a list of PatientRecord objects for a specific patient, filtered by
@@ -53,8 +57,7 @@ public class DataStorage {
      *                  retrieved
      * @param startTime the start of the time range, in milliseconds since the Unix
      *                  epoch
-     * @param endTime   the end of the time range, in milliseconds since the Unix
-     *                  epoch
+     * @param endTime   the end of the time range, in milliseconds since the Unix epoch
      * @return a list of PatientRecord objects that fall within the specified time
      *         range
      */
@@ -79,13 +82,13 @@ public class DataStorage {
      * The main method for the DataStorage class.
      * Initializes the system, reads data into storage, and continuously monitors
      * and evaluates patient data.
-     * 
+     *
      * @param args command line arguments
      */
     public static void main(String[] args) {
         // DataReader is not defined in this scope, should be initialized appropriately.
-        // DataReader reader = new SomeDataReaderImplementation("path/to/data");
-        DataStorage storage = new DataStorage();
+        DataReader reader = new FileReader();
+        DataStorage storage = new DataStorage(reader);
 
         // Assuming the reader has been properly initialized and can read data into the
         // storage
@@ -108,4 +111,6 @@ public class DataStorage {
             alertGenerator.evaluateData(patient);
         }
     }
+
+
 }

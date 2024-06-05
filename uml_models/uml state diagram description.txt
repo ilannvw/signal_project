@@ -1,6 +1,0 @@
-The initial state of the alert is Generated. This likely means the alert has been triggered by some condition being met.
-From the Generated state, the alert can transition to two different states: Acknowledged and Sent.
-The Sent state signifies the alert has been sent to the intended recipient(s). This could involve sending an email, text message, or triggering an audible or visual notification.
-The Acknowledged state signifies that the recipient has seen the alert and has confirmed their awareness.
-The diagram does not show any transitions out of the Acknowledged state. This suggests that once an alert is acknowledged, it remains acknowledged and the system takes no further action on it.
-There is also no way for an alert to transition back to the Generated state from either Sent or Acknowledged. This implies the system likely archives or discards the alert after it transitions out of the Generated state.

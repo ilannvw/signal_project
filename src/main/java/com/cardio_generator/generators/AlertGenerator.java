@@ -5,55 +5,52 @@ import java.util.Random;
 import com.cardio_generator.outputs.OutputStrategy;
 
 /**
- * The AlertGenerator class generates alert data for patients.
+ * Generates alert data for patients.
  */
 public class AlertGenerator implements PatientDataGenerator {
 
-    public static final Random randomGenerator = new Random(); // Random number generator
+    public static final Random randomGenerator = new Random();
 
-    private boolean[] alertStates; // Array to track alert states for each patient
+    private boolean[] alertStates; // false = resolved, true = pressed
 
     /**
-     * Constructs an AlertGenerator with the specified number of patients.
+     * Constructs an AlertGenerator object with the specified number of patients.
      *
-     * @param patientCount The number of patients.
+     * @param patientCount Integer representing number of patients.
      */
     public AlertGenerator(int patientCount) {
-        alertStates = new boolean[patientCount + 1]; // Initialize alert states for each patient
+        alertStates = new boolean[patientCount + 1];
     }
 
     /**
-     * Generates alert data for the specified patient.
+     * Creates alert data for the specified patient and outputs it using the provided OutputStrategy.
      *
-     * @param patientId      The ID of the patient.
-     * @param outputStrategy The output strategy to use for the generated data.
+     * @param patientId      Integer representing the ID of the patient.
+     * @param outputStrategy The output strategy to use for data output.
      */
     @Override
     public void generate(int patientId, OutputStrategy outputStrategy) {
         try {
             if (alertStates[patientId]) {
-                // Check if alert should be resolved
                 if (randomGenerator.nextDouble() < 0.9) { // 90% chance to resolve
-                    alertStates[patientId] = false; // Resolve the alert
-                    // Output the resolved alert
+                    alertStates[patientId] = false;
+                    // Output the alert
                     outputStrategy.output(patientId, System.currentTimeMillis(), "Alert", "resolved");
                 }
             } else {
-                // Calculate probability of alert trigger
+                // Changed variables names to camelCase
                 double lambda = 0.1; // Average rate (alerts per period), adjust based on desired frequency
                 double p = -Math.expm1(-lambda); // Probability of at least one alert in the period
-
-                // Check if alert is triggered
                 boolean alertTriggered = randomGenerator.nextDouble() < p;
 
                 if (alertTriggered) {
-                    alertStates[patientId] = true; // Set alert state to true
-                    // Output the triggered alert
+                    alertStates[patientId] = true;
+                    // Output the alert
                     outputStrategy.output(patientId, System.currentTimeMillis(), "Alert", "triggered");
                 }
             }
+            // Error handling
         } catch (Exception e) {
-            // Handle any exceptions gracefully
             System.err.println("An error occurred while generating alert data for patient " + patientId);
             e.printStackTrace();
         }
