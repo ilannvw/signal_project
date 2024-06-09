@@ -48,19 +48,19 @@ class NewWebSocketClientTest {
     void testOnOpen() {
         ServerHandshake handshake = mock(ServerHandshake.class);
         client.onOpen(handshake);
-        // Additional verification can be added here if needed
+        // Check for any initialization or logging if required
     }
 
     @Test
     void testOnClose() {
         client.onClose(1000, "Normal closure", true);
-        // Additional verification can be added here if needed
+        // Verify any cleanup or logging if necessary
     }
 
     @Test
     void testOnError() {
         Exception ex = new Exception("Test exception");
         client.onError(ex);
-        // Additional verification can be added here if needed
+        // Verify logging or error handling if needed
     }
 }
