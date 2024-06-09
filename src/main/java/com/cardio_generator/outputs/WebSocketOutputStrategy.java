@@ -5,10 +5,15 @@ import org.java_websocket.server.WebSocketServer;
 
 import java.net.InetSocketAddress;
 
+/**
+ * A class that implements the OutputStrategy interface to send output data
+ * via a WebSocket server.
+ */
 public class WebSocketOutputStrategy implements OutputStrategy {
 
     private WebSocketServer server;
 
+    /**
      * Constructs a WebSocketOutputStrategy with the specified port.
      *
      * @param port the port on which the WebSocket server will listen.
@@ -19,6 +24,9 @@ public class WebSocketOutputStrategy implements OutputStrategy {
         server.start();
     }
 
+    /**
+     * Outputs data to all connected WebSocket clients.
+     *
      * @param patientId the ID of the patient.
      * @param timestamp the timestamp of the data.
      * @param label     the label describing the data.
