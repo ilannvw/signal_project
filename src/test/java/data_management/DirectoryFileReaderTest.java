@@ -2,9 +2,10 @@ package data_management;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import com.data_management.DataStorage;
-import com.data_management.FileReader;
+import com.data_management.DirectoryFileReader;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -15,23 +16,24 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class FileDataReaderTest {
+class DirectoryFileReaderTest {
     private DataStorage mockDataStorage;
-    private FileReader fileDataReader;
+    private DirectoryFileReader directoryFileReader;
+    private Path tempDir;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws IOException {
         mockDataStorage = mock(DataStorage.class);
-        fileDataReader = new FileReader();
+        tempDir = Files.createTempDirectory("tempDir");
+        directoryFileReader = new DirectoryFileReader(tempDir);
     }
 
     @Test
     void testReadDataWithValidDirectory() throws IOException {
-        Path tempDir = Files.createTempDirectory("tempDir");
         Path tempFile = Files.createFile(tempDir.resolve("data.csv"));
         Files.write(tempFile, List.of("1,100.0,HeartRate,1714376789050", "2,120.0,BloodPressure,1714376789051"));
 
-        fileDataReader.readData(tempDir, mockDataStorage);
+        directoryFileReader.readData(mockDataStorage);
 
         verify(mockDataStorage, times(1)).addPatientData(1, 100.0, "HeartRate", 1714376789050L);
         verify(mockDataStorage, times(1)).addPatientData(2, 120.0, "BloodPressure", 1714376789051L);
@@ -45,7 +47,7 @@ class FileDataReaderTest {
         Path invalidDir = Paths.get("invalidDir");
 
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            fileDataReader.readData(invalidDir, mockDataStorage);
+            new DirectoryFileReader(invalidDir);
         });
 
         assertEquals("Specified path is not a directory: invalidDir", exception.getMessage());
@@ -53,10 +55,10 @@ class FileDataReaderTest {
 
     @Test
     void testParseAndStoreDataWithMalformedData() throws IOException {
-        Path tempFile = Files.createTempFile("data", ".csv");
+        Path tempFile = Files.createTempFile(tempDir, "data", ".csv");
         Files.write(tempFile, List.of("1,100.0,HeartRate", "2,120.0,BloodPressure,1714376789051"));
 
-        fileDataReader.parseAndStoreData(tempFile, mockDataStorage);
+        directoryFileReader.parseAndStoreData(tempFile, mockDataStorage);
 
         verify(mockDataStorage, never()).addPatientData(eq(1), anyDouble(), anyString(), anyLong());
         verify(mockDataStorage, times(1)).addPatientData(2, 120.0, "BloodPressure", 1714376789051L);
@@ -66,12 +68,14 @@ class FileDataReaderTest {
 
     @Test
     void testParseAndStoreDataWithValidData() throws IOException {
-        Path tempFile = Files.createTempFile("data", ".csv");
+        Path tempFile = Files.createTempFile(tempDir, "data", ".csv");
         Files.write(tempFile, List.of("1,100.0,HeartRate,1714376789050", "2,120.0,BloodPressure,1714376789051"));
 
-        fileDataReader.parseAndStoreData(tempFile, mockDataStorage);
+        directoryFileReader.parseAndStoreData(tempFile, mockDataStorage);
 
         verify(mockDataStorage, times(1)).addPatientData(1, 100.0, "HeartRate", 1714376789050L);
+        verify(mockDataStorage, times(1)).addPatientData(2, 120.0, "BloodPressure", 1714376789051L);
 
+        Files.deleteIfExists(tempFile);
     }
 }

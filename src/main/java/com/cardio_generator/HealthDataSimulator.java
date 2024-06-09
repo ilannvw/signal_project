@@ -153,7 +153,7 @@ public class HealthDataSimulator {
     /**
      * Initializes the list of patient IDs.
      *
-     * @param patientCount. Integer representing the number of patients to simulate data for.
+     * @param patientCount Integer representing the number of patients to simulate data for.
      * @return A list of integers representing patient IDs.
      */
 
